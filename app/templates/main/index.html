@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - My Website{% endblock %}
+
+{% block brand %}My Website{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Basic table styles */
+    body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        margin: 2rem;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: .6rem .75rem;
+        text-align: left;
+    }
+
+    thead th {
+        background: #f3f4f6;
+    }
+
+    tbody tr:hover {
+        background: #f6f8fa;
+        cursor: pointer;
+    }
+
+    /* Persistent selection highlight */
+    tbody tr.selected {
+        background: #e7f1ff;
+    }
+
+    /* Tooltip */
+    #tooltip {
+        position: fixed;
+        z-index: 1000;
+        background: #111;
+        color: #fff;
+        padding: .4rem .6rem;
+        font-size: .875rem;
+        border-radius: .375rem;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 80ms linear;
+        max-width: 360px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
+        white-space: nowrap;
+    }
+
+    #tooltip.show {
+        opacity: 1;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<form id="scheduleForm" action="#" method="post">
+    <table aria-describedby="help">
+        <caption id="help" style="caption-side: bottom; text-align: left; padding-top: .5rem; color: #6b7280;"> Use the
+            row checkbox to select all slots for a day, or the column checkbox to select all slots for that time across
+            days. </caption>
+        <thead>
+            <tr>
+                <th class="day" scope="col">Day</th> <!-- Column headers with select-all checkboxes -->
+                <th scope="col">
+                    <div class="header-controls"> <span>00:00–03:00</span> </div>
+                </th>
+                <th scope="col">
+                    <div class="header-controls"> <span>03:00–06:00</span> </div>
+                </th>
+                <th scope="col">
+                    <div class="header-controls"> <span>06:00–09:00</span> </div>
+                </th>
+                <th scope="col">
+                    <div class="header-controls"> <span>09:00–12:00</span> </div>
+                </th>
+                <th scope="col">
+                    <div class="header-controls"> <span>12:00–15:00</span> </div>
+                </th>
+                <th scope="col">
+                    <div class="header-controls"> <span>15:00–18:00</span> </div>
+                </th>
+                <th scope="col">
+                    <div class="header-controls"> <span>18:00–21:00</span> </div>
+                </th>
+                <th scope="col">
+                    <div class="header-controls"> <span>21:00–24:00</span> </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody> <!-- Rows Monday to Friday --> <!-- Template for each day row -->
+            <tr data-day="Monday">
+                <th class="day" scope="row"> <label for="row-all-Monday"
+                        style="display:inline-flex; gap:.5rem; align-items:center;"> Monday <input type="checkbox"
+                            id="row-all-Monday" aria-label="Select all Monday"> </label> </th> <!-- Cells -->
+                <td class="cell-wrap"> <input class="cell-input" type="checkbox" id="Mon-00-03"
+                        name="availability[Monday][]" value="00-03" data-day="Monday" data-slot="00-03"
+                        aria-label="Monday 00:00–03:00"> <label class="cell-label" for="Mon-00-03"></label> </td>
+                <td class="cell-wrap"> <input class="cell-input" type="checkbox" id="Mon-03-06"
+                        name="availability[Monday][]" value="03-06" data-day="Monday" data-slot="03-06"
+                        aria-label="Monday 03:00–06:00"> <label class="cell-label" for="Mon-03-06"></label> </td>
+                <td class="cell-wrap"> <input class="cell-input" type="checkbox" id="Mon-06-09"
+                        name="availability[Monday][]" value="06-09" data-day="Monday" data-slot="06-09"
+                        aria-label="Monday 06:00–09:00"> <label class="cell-label" for="Mon-06-09"></label> </td>
+                <td class="cell-wrap"> <input class="cell-input" type="checkbox" id="Mon-09-12"
+                        name="availability[Monday][]" value="09-12" data-day="Monday" data-slot="09-12"
+                        aria-label="Monday 09:00–12:00"> <label class="cell-label" for="Mon-09-12"></label> </td>
+                <td class="cell-wrap"> <input class="cell-input" type="checkbox" id="Mon-12-15"
+                        name="availability[Monday][]" value="12-15" data-day="Monday" data-slot="12-15"
+                        aria-label="Monday 12:00–15:00"> <label class="cell-label" for="Mon-12-15"></label> </td>
+                <td class="cell-wrap"> <input class="cell-input" type="checkbox" id="Mon-15-18"
+                        name="availability[Monday][]" value="15-18" data-day="Monday" data-slot="15-18"
+                        aria-label="Monday 15:00–18:00"> <label class="cell-label" for="Mon-15-18"></label> </td>
+                <td class="cell-wrap"> <input class="cell-input" type="checkbox" id="Mon-18-21"
+                        name="availability[Monday][]" value="18-21" data-day="Monday" data-slot="18-21"
+                        aria-label="Monday 18:00–21:00"> <label class="cell-label" for="Mon-18-21"></label> </td>
+                <td class="cell-wrap"> <input class="cell-input" type="checkbox" id="Mon-21-24"
+                        name="availability[Monday][]" value="21-24" data-day="Monday" data-slot="21-24"
+                        aria-label="Monday 21:00–24:00"> <label class="cell-label" for="Mon-21-24"></label> </td>
+            </tr>
+            <tr data-day="Tuesday">
+                <th class="day" scope="row">
+                    <label for="row-all-Tuesday" style="display:inline-flex; gap:.5rem; align-items:center;">
+                        Tuesday
+                        <input type="checkbox" id="row-all-Tuesday" aria-label="Select all Tuesday">
+                    </label>
+                </th>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Tue-00-03"
+                        name="availability[Tuesday][]" value="00-03" data-day="Tuesday" data-slot="00-03"
+                        aria-label="Tuesday 00:00–03:00"><label class="cell-label" for="Tue-00-03"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Tue-03-06"
+                        name="availability[Tuesday][]" value="03-06" data-day="Tuesday" data-slot="03-06"
+                        aria-label="Tuesday 03:00–06:00"><label class="cell-label" for="Tue-03-06"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Tue-06-09"
+                        name="availability[Tuesday][]" value="06-09" data-day="Tuesday" data-slot="06-09"
+                        aria-label="Tuesday 06:00–09:00"><label class="cell-label" for="Tue-06-09"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Tue-09-12"
+                        name="availability[Tuesday][]" value="09-12" data-day="Tuesday" data-slot="09-12"
+                        aria-label="Tuesday 09:00–12:00"><label class="cell-label" for="Tue-09-12"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Tue-12-15"
+                        name="availability[Tuesday][]" value="12-15" data-day="Tuesday" data-slot="12-15"
+                        aria-label="Tuesday 12:00–15:00"><label class="cell-label" for="Tue-12-15"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Tue-15-18"
+                        name="availability[Tuesday][]" value="15-18" data-day="Tuesday" data-slot="15-18"
+                        aria-label="Tuesday 15:00–18:00"><label class="cell-label" for="Tue-15-18"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Tue-18-21"
+                        name="availability[Tuesday][]" value="18-21" data-day="Tuesday" data-slot="18-21"
+                        aria-label="Tuesday 18:00–21:00"><label class="cell-label" for="Tue-18-21"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Tue-21-24"
+                        name="availability[Tuesday][]" value="21-24" data-day="Tuesday" data-slot="21-24"
+                        aria-label="Tuesday 21:00–24:00"><label class="cell-label" for="Tue-21-24"></label></td>
+            </tr>
+
+            <tr data-day="Wednesday">
+                <th class="day" scope="row">
+                    <label for="row-all-Wednesday" style="display:inline-flex; gap:.5rem; align-items:center;">
+                        Wednesday
+                        <input type="checkbox" id="row-all-Wednesday" aria-label="Select all Wednesday">
+                    </label>
+                </th>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Wed-00-03"
+                        name="availability[Wednesday][]" value="00-03" data-day="Wednesday" data-slot="00-03"
+                        aria-label="Wednesday 00:00–03:00"><label class="cell-label" for="Wed-00-03"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Wed-03-06"
+                        name="availability[Wednesday][]" value="03-06" data-day="Wednesday" data-slot="03-06"
+                        aria-label="Wednesday 03:00–06:00"><label class="cell-label" for="Wed-03-06"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Wed-06-09"
+                        name="availability[Wednesday][]" value="06-09" data-day="Wednesday" data-slot="06-09"
+                        aria-label="Wednesday 06:00–09:00"><label class="cell-label" for="Wed-06-09"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Wed-09-12"
+                        name="availability[Wednesday][]" value="09-12" data-day="Wednesday" data-slot="09-12"
+                        aria-label="Wednesday 09:00–12:00"><label class="cell-label" for="Wed-09-12"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Wed-12-15"
+                        name="availability[Wednesday][]" value="12-15" data-day="Wednesday" data-slot="12-15"
+                        aria-label="Wednesday 12:00–15:00"><label class="cell-label" for="Wed-12-15"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Wed-15-18"
+                        name="availability[Wednesday][]" value="15-18" data-day="Wednesday" data-slot="15-18"
+                        aria-label="Wednesday 15:00–18:00"><label class="cell-label" for="Wed-15-18"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Wed-18-21"
+                        name="availability[Wednesday][]" value="18-21" data-day="Wednesday" data-slot="18-21"
+                        aria-label="Wednesday 18:00–21:00"><label class="cell-label" for="Wed-18-21"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Wed-21-24"
+                        name="availability[Wednesday][]" value="21-24" data-day="Wednesday" data-slot="21-24"
+                        aria-label="Wednesday 21:00–24:00"><label class="cell-label" for="Wed-21-24"></label></td>
+            </tr>
+
+            <tr data-day="Thursday">
+                <th class="day" scope="row">
+                    <label for="row-all-Thursday" style="display:inline-flex; gap:.5rem; align-items:center;">
+                        Thursday
+                        <input type="checkbox" id="row-all-Thursday" aria-label="Select all Thursday">
+                    </label>
+                </th>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Thu-00-03"
+                        name="availability[Thursday][]" value="00-03" data-day="Thursday" data-slot="00-03"
+                        aria-label="Thursday 00:00–03:00"><label class="cell-label" for="Thu-00-03"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Thu-03-06"
+                        name="availability[Thursday][]" value="03-06" data-day="Thursday" data-slot="03-06"
+                        aria-label="Thursday 03:00–06:00"><label class="cell-label" for="Thu-03-06"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Thu-06-09"
+                        name="availability[Thursday][]" value="06-09" data-day="Thursday" data-slot="06-09"
+                        aria-label="Thursday 06:00–09:00"><label class="cell-label" for="Thu-06-09"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Thu-09-12"
+                        name="availability[Thursday][]" value="09-12" data-day="Thursday" data-slot="09-12"
+                        aria-label="Thursday 09:00–12:00"><label class="cell-label" for="Thu-09-12"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Thu-12-15"
+                        name="availability[Thursday][]" value="12-15" data-day="Thursday" data-slot="12-15"
+                        aria-label="Thursday 12:00–15:00"><label class="cell-label" for="Thu-12-15"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Thu-15-18"
+                        name="availability[Thursday][]" value="15-18" data-day="Thursday" data-slot="15-18"
+                        aria-label="Thursday 15:00–18:00"><label class="cell-label" for="Thu-15-18"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Thu-18-21"
+                        name="availability[Thursday][]" value="18-21" data-day="Thursday" data-slot="18-21"
+                        aria-label="Thursday 18:00–21:00"><label class="cell-label" for="Thu-18-21"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Thu-21-24"
+                        name="availability[Thursday][]" value="21-24" data-day="Thursday" data-slot="21-24"
+                        aria-label="Thursday 21:00–24:00"><label class="cell-label" for="Thu-21-24"></label></td>
+            </tr>
+
+            <tr data-day="Friday">
+                <th class="day" scope="row">
+                    <label for="row-all-Friday" style="display:inline-flex; gap:.5rem; align-items:center;">
+                        Friday
+                        <input type="checkbox" id="row-all-Friday" aria-label="Select all Friday">
+                    </label>
+                </th>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Fri-00-03"
+                        name="availability[Friday][]" value="00-03" data-day="Friday" data-slot="00-03"
+                        aria-label="Friday 00:00–03:00"><label class="cell-label" for="Fri-00-03"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Fri-03-06"
+                        name="availability[Friday][]" value="03-06" data-day="Friday" data-slot="03-06"
+                        aria-label="Friday 03:00–06:00"><label class="cell-label" for="Fri-03-06"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Fri-06-09"
+                        name="availability[Friday][]" value="06-09" data-day="Friday" data-slot="06-09"
+                        aria-label="Friday 06:00–09:00"><label class="cell-label" for="Fri-06-09"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Fri-09-12"
+                        name="availability[Friday][]" value="09-12" data-day="Friday" data-slot="09-12"
+                        aria-label="Friday 09:00–12:00"><label class="cell-label" for="Fri-09-12"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Fri-12-15"
+                        name="availability[Friday][]" value="12-15" data-day="Friday" data-slot="12-15"
+                        aria-label="Friday 12:00–15:00"><label class="cell-label" for="Fri-12-15"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Fri-15-18"
+                        name="availability[Friday][]" value="15-18" data-day="Friday" data-slot="15-18"
+                        aria-label="Friday 15:00–18:00"><label class="cell-label" for="Fri-15-18"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Fri-18-21"
+                        name="availability[Friday][]" value="18-21" data-day="Friday" data-slot="18-21"
+                        aria-label="Friday 18:00–21:00"><label class="cell-label" for="Fri-18-21"></label></td>
+                <td class="cell-wrap"><input class="cell-input" type="checkbox" id="Fri-21-24"
+                        name="availability[Friday][]" value="21-24" data-day="Friday" data-slot="21-24"
+                        aria-label="Friday 21:00–24:00"><label class="cell-label" for="Fri-21-24"></label></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="9">
+                    <button type="submit">Submit availability</button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>
+
+{% endblock %}

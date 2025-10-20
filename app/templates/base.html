@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Site Title{% endblock %}</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body class="bg-body"> <a href="#content" class="visually-hidden-focusable">Skip to main content</a>
+    <header class="border-bottom">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white" aria-label="Main navigation">
+            <div class="container">
+                <a class="navbar-brand fw-semibold" href="{% block brand_url %}/{% endblock %}">
+                    {% block brand %}Brand{% endblock %}
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#primaryNav"
+                    aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="primaryNav">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        {% block nav %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                        {% endblock %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="content" class="container py-5">
+        {% block content %}
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="h2 mb-3">Page title</h1>
+                <p class="text-body-secondary">Start crafting your content here.</p>
+            </div>
+        </div>
+        {% endblock %}
+    </main>
+
+    <footer class="border-top py-4">
+        <div
+            class="container d-flex flex-wrap justify-content-between align-items-center gap-2 small text-body-secondary">
+            <span>
+                &copy; {% block footer_year %}{{ current_year|default(2025) }}{% endblock %} {% block footer_brand
+                %}Your Company{% endblock %}
+            </span>
+            <ul class="nav">
+                {% block footer_nav %}
+                <li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="#">Privacy</a></li>
+                <li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="#">Terms</a></li>
+                {% endblock %}
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS (bundle includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>
