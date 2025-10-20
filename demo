@@ -13,8 +13,8 @@ server {
     server_name _;
 
     # location of the self-signed SSL certificate
-    ssl_certificate root/dp_demo/certs/cert.pem;
-    ssl_certificate_key root/dp_demo/certs/key.pem;
+    ssl_certificate /etc/nginx/certs/cert.pem;
+    ssl_certificate_key /etc/nginx/certs/key.pem;
 
     location / {
         # forward application requests to the gunicorn server
